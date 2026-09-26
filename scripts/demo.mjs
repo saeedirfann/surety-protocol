@@ -44,8 +44,8 @@ try {
   writeFileSync("deployments/local.json", JSON.stringify(config, null, 2) + "\n");
   console.log("Local contracts deployed:", { registry: config.registry, claims: config.manager, oracle: config.oracle });
   const pnpm = process.env.npm_execpath; if (!pnpm) throw new Error("Run this command through pnpm demo");
-  run([pnpm, "--filter", "@surety/indexer", "dev", "--disable-ui"], { MOCK_MODE: "true", PONDER_TELEMETRY_DISABLED: "true" });
-  // Vite exits on stdin EOF in noninteractive runners; production start is available for hosted environments.
+  // Avoid dev hot-reload closing PGlite while indexing. Isolate each demo's application tables.
+  run([pnpm, "--filter", "@surety/indexer", "start", "--schema", `surety_${Date.now()}`, "--hostname", "127.0.0.1"], { MOCK_MODE: "true", PONDER_TELEMETRY_DISABLED: "true" });
   run([pnpm, "--filter", "@surety/web", "dev"], { MOCK_MODE: "true" });
   let busy = false;
   setInterval(async () => {
