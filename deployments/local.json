@@ -1,9 +1,9 @@
 {
   "chainId": 31337,
   "rpc": "http://127.0.0.1:8545",
-  "startBlock": 4,
+  "startBlock": 3,
   "fixture": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-  "deploymentTx": "0x77551b668c408e2fd9d8294fa80c734cdd1236ba3908f6e238b3d535f20aad1a",
+  "deploymentTx": "0x15a66420c797cad10c168745801608edb170aebfe2c0d42c988924fbeac97b83",
   "users": [
     "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
     "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",

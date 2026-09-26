@@ -1,0 +1,129 @@
+{
+  "agents": {
+    "items": [
+      {
+        "id": "1",
+        "operator": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "vault": "0x6fd8799795c1a4eaf31d34c64064f41ac018457a",
+        "metadata": "{\"name\":\"Atlas\",\"category\":\"Trading & execution\",\"description\":\"Atlas operates under a bonded, public transaction policy.\"}",
+        "bond": "4850000000",
+        "reserved": "0",
+        "maxTxValue": "50000000",
+        "approvalAbove": "25000000",
+        "allowedContracts": "[\"0xa16E02E87b7454126E5E10d957A927A7F5B5d2be\"]",
+        "allowedSelectors": "[\"0xa9059cbb\"]",
+        "paidClaims": "1",
+        "totalPaid": "150000000"
+      },
+      {
+        "id": "2",
+        "operator": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "vault": "0x016456b4817a11d38d92b415aac170f4b3f0cf4d",
+        "metadata": "{\"name\":\"Sentinel\",\"category\":\"Treasury operations\",\"description\":\"Sentinel operates under a bonded, public transaction policy.\"}",
+        "bond": "2500000000",
+        "reserved": "0",
+        "maxTxValue": "50000000",
+        "approvalAbove": "25000000",
+        "allowedContracts": "[\"0xa16E02E87b7454126E5E10d957A927A7F5B5d2be\"]",
+        "allowedSelectors": "[\"0xa9059cbb\"]",
+        "paidClaims": "0",
+        "totalPaid": "0"
+      },
+      {
+        "id": "3",
+        "operator": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "vault": "0x61918e829eed8044fbd44ea519c122ec5613cff7",
+        "metadata": "{\"name\":\"Scout\",\"category\":\"Research & procurement\",\"description\":\"Scout operates under a bonded, public transaction policy.\"}",
+        "bond": "1200000000",
+        "reserved": "0",
+        "maxTxValue": "50000000",
+        "approvalAbove": "25000000",
+        "allowedContracts": "[\"0xa16E02E87b7454126E5E10d957A927A7F5B5d2be\"]",
+        "allowedSelectors": "[\"0xa9059cbb\"]",
+        "paidClaims": "0",
+        "totalPaid": "0"
+      },
+      {
+        "id": "4",
+        "operator": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "vault": "0x1741ea51f28c5125fdc636e4de426fd8241efd4f",
+        "metadata": "{\"name\":\"Meridian\",\"category\":\"Custom agent\",\"description\":\"Browser-tested bonded operator.\"}",
+        "bond": "1000000000",
+        "reserved": "0",
+        "maxTxValue": "50000000",
+        "approvalAbove": "25000000",
+        "allowedContracts": "[\"0xa16E02E87b7454126E5E10d957A927A7F5B5d2be\"]",
+        "allowedSelectors": "[\"0xa9059cbb\"]",
+        "paidClaims": "0",
+        "totalPaid": "0"
+      }
+    ]
+  },
+  "claims": {
+    "items": [
+      {
+        "id": "0xa5b48189bc39f8c6fa465188c672f4ec790a1d12373f8fd464b4d824b3d2f8b3",
+        "agentId": "1",
+        "claimant": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+        "damages": "100000000",
+        "bond": "10000000",
+        "deadline": "1790465869",
+        "status": "Rejected",
+        "evidence": "Frivolous claim: no verifiable policy breach.",
+        "filedAt": "1790465824",
+        "txHash": "0x313e6565c8fea86e358873667a1416fa5cec8fb18d985e5a2e8774bc02d21565"
+      },
+      {
+        "id": "0x2ae821079cedde252621f8ffe1c7de2fa036250765359c8d6cff4ce70ac882a9",
+        "agentId": "1",
+        "claimant": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+        "damages": "150000000",
+        "bond": "15000000",
+        "deadline": "1790465817",
+        "status": "Paid",
+        "evidence": "Unauthorized expenditure: evidence retained in local demo.",
+        "filedAt": "1790465772",
+        "txHash": "0x9659ef440d1930d8313a385c921e1465e6b33f61870a10f2e60b323bae8ef219"
+      }
+    ]
+  },
+  "deployment": {
+    "chainId": 31337,
+    "rpc": "http://127.0.0.1:8545",
+    "startBlock": 3,
+    "fixture": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "deploymentTx": "0x15a66420c797cad10c168745801608edb170aebfe2c0d42c988924fbeac97b83",
+    "users": [
+      "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+    ],
+    "mocked": [
+      "World ID",
+      "UMA DVM",
+      "ENS",
+      "MultiBaas",
+      "Intercepta",
+      "1inch",
+      "Automation hosting"
+    ],
+    "token": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
+    "oracle": "0x9CfA6D15c80Eb753C815079F2b32ddEFd562C3e4",
+    "dvm": "0x86337dDaF2661A069D0DcB5D160585acC2d15E9a",
+    "identity": "0x427f7c59ED72bCf26DfFc634FEF3034e00922DD8",
+    "registry": "0x275039fc0fd2eeFac30835af6aeFf24e8c52bA6B",
+    "manager": "0x07e7876A32feEc2cE734aae93d9aB7623EaEF4a3"
+  },
+  "block": "148",
+  "mode": "local",
+  "integrations": {
+    "uma": "Real OOv3 + upstream DVM mock",
+    "identity": "Local mock",
+    "ens": "Blocked — namespace unavailable",
+    "multibaas": "Mock — credentials unavailable",
+    "intercepta": "Mock — endpoint/key unavailable",
+    "oneinch": "Mock — API key unavailable",
+    "automation": "Local keeper running"
+  },
+  "capturedAt": "2026-09-26T23:37:24.952Z"
+}
