@@ -6,7 +6,7 @@ const file = resolve("../shared/deployment.json");
 const deployment = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : undefined;
 
 export default createConfig({
-  database: { kind: "pglite" },
+  database: { kind: "pglite", directory: process.env.PONDER_DATABASE_DIR ?? ".ponder/pglite" },
   chains: {
     anvil: {
       id: 31337,
