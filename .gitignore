@@ -1,0 +1,43 @@
+# Secrets (examples are deliberately public)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies and build outputs
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+contracts/cache/
+/cache/
+contracts/broadcast/
+contracts/lib/
+.ponder/
+*.log
+.tools/
+.pnpm-store/
+
+# Local build instructions and planning records
+AGENTS.md
+CLAUDE.md
+PROMPT.md
+docs/CLAUDE.md
+docs/PROMPT.md
+docs/PLAN.md
+docs/TASKS.md
+docs/BLOCKERS.md
+docs/BUILD_LOG.md
+docs/DEMO_SCRIPT.md
+.agents/
+.codex/
+.claude/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

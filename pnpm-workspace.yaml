@@ -1,0 +1,16 @@
+packages:
+  - contracts
+  - web
+  - indexer
+  - agent-sim
+
+shellEmulator: true
+
+onlyBuiltDependencies:
+  - '@foundry-rs/anvil'
+  - '@foundry-rs/forge'
+  - esbuild
+  - sharp
+  - better-sqlite3
+  - keccak
+  - secp256k1

@@ -1,0 +1,14 @@
+{
+  "name": "@surety/contracts",
+  "private": true,
+  "scripts": {
+    "test": "node ../scripts/foundry.mjs forge test",
+    "build": "node ../scripts/foundry.mjs forge build",
+    "install:std": "node ../scripts/foundry.mjs forge install foundry-rs/forge-std@v1.12.0 --no-git --shallow"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "4.9.6",
+    "@uma/core": "2.62.2",
+    "@ethereum-attestation-service/eas-contracts": "1.9.0"
+  }
+}

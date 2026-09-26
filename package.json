@@ -1,0 +1,24 @@
+{
+  "name": "surety-protocol",
+  "private": true,
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test:e2e": "node scripts/verify-demo.mjs",
+    "demo": "node scripts/demo.mjs",
+    "abi": "node scripts/export-abis.mjs",
+    "dev": "pnpm --filter @surety/web dev",
+    "dev:indexer": "pnpm --filter @surety/indexer dev",
+    "chain": "node scripts/foundry.mjs anvil --host 127.0.0.1 --block-time 2",
+    "test:contracts": "pnpm --filter @surety/contracts test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "build": "pnpm --filter @surety/web build"
+  },
+  "devDependencies": {
+    "@foundry-rs/anvil": "1.7.1",
+    "@foundry-rs/forge": "1.7.1",
+    "@playwright/test": "1.63.0"
+  }
+}

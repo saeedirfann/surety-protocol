@@ -1,0 +1,8 @@
+{
+  "name": "@surety/agent-sim",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "tsx src/index.ts", "typecheck": "tsc --noEmit" },
+  "dependencies": { "viem": "2.56.9" },
+  "devDependencies": { "tsx": "^4.0.0", "typescript": "^5.0.0", "@types/node": "^22.0.0" }
+}
