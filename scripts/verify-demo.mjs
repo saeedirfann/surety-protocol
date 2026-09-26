@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { writeFileSync } from "node:fs";
 import { chromium, expect } from "@playwright/test";
 
 const base = "http://localhost:3000";
@@ -72,5 +73,6 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, "Mobile page must not overflow");
   await page.screenshot({ path: "RepoAssets/mobile.png", fullPage: true });
   assert.deepEqual(errors, []);
+  writeFileSync("shared/demo-snapshot.json", JSON.stringify({ ...await state(), capturedAt: new Date().toISOString() }, null, 2) + "\n");
   console.log("PASS: browser registration, search, policy pass/block, over-coverage rejection, locked withdrawal, automatic payout, frivolous rejection, navigation, mobile layout, no browser errors.");
 } finally { await browser.close(); }
