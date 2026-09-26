@@ -18,10 +18,9 @@ async function action(input, succeeds = true) {
   const data = await r.json(); assert.equal(r.ok, succeeds, JSON.stringify(data)); return data;
 }
 async function newClaim(amount, evidence) {
-  const before = new Set((await state()).claims.items.map(c => c.id));
-  await action({ action: "claim", agentId: 1, amount, evidence });
-  const data = await until(d => d.claims.items.some(c => !before.has(c.id)));
-  return data.claims.items.find(c => !before.has(c.id));
+  const receipt = await action({ action: "claim", agentId: 1, amount, evidence });
+  assert.match(receipt.assertionId, /^0x[0-9a-f]{64}$/i);
+  return { id: receipt.assertionId };
 }
 try {
   await until(d => d.agents.items.length >= 3);
