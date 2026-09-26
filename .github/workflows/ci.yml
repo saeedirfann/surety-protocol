@@ -1,4 +1,4 @@
-name: Scaffold checks
+name: Protocol and dashboard checks
 on: [push, pull_request]
 permissions:
   contents: read
@@ -17,6 +17,32 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @surety/contracts install:std
       - run: pnpm test:contracts
+      - run: pnpm abi
       - run: pnpm typecheck
       - run: pnpm --filter @surety/web lint
       - run: pnpm build
+  demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @surety/contracts install:std
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Start seeded local stack
+        run: pnpm demo > /tmp/surety-demo.log 2>&1 &
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: demo-evidence
+          path: |
+            RepoAssets/*.png
+            /tmp/surety-demo.log
