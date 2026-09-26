@@ -1,0 +1,27 @@
+{
+  "chainId": 31337,
+  "rpc": "http://127.0.0.1:8545",
+  "startBlock": 4,
+  "fixture": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "deploymentTx": "0x77551b668c408e2fd9d8294fa80c734cdd1236ba3908f6e238b3d535f20aad1a",
+  "users": [
+    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+  ],
+  "mocked": [
+    "World ID",
+    "UMA DVM",
+    "ENS",
+    "MultiBaas",
+    "Intercepta",
+    "1inch",
+    "Automation hosting"
+  ],
+  "token": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
+  "oracle": "0x9CfA6D15c80Eb753C815079F2b32ddEFd562C3e4",
+  "dvm": "0x86337dDaF2661A069D0DcB5D160585acC2d15E9a",
+  "identity": "0x427f7c59ED72bCf26DfFc634FEF3034e00922DD8",
+  "registry": "0x275039fc0fd2eeFac30835af6aeFf24e8c52bA6B",
+  "manager": "0x07e7876A32feEc2cE734aae93d9aB7623EaEF4a3"
+}
