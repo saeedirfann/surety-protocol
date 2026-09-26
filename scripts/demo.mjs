@@ -1,4 +1,5 @@
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
+import { createServer } from "node:net";
 import { createRequire } from "node:module";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 const require = createRequire(new URL("../agent-sim/package.json", import.meta.url));
@@ -18,9 +19,21 @@ const send = async (name, address, functionName, args = [], account) => {
   const hash = await wallet.writeContract({ address, abi: artifact(name).abi, functionName, args, account });
   const receipt = await publicClient.waitForTransactionReceipt({ hash }); if (receipt.status !== "success") throw new Error(`${functionName} reverted`); return receipt;
 };
-const cleanup = (code = 0) => { for (const child of children) child.kill("SIGTERM"); process.exit(code); };
+const cleanup = (code = 0) => {
+  for (const child of children) {
+    if (child.exitCode !== null || !child.pid) continue;
+    if (process.platform === "win32") spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], { stdio: "ignore" });
+    else child.kill("SIGTERM");
+  }
+  process.exit(code);
+};
 process.on("SIGINT", () => cleanup()); process.on("SIGTERM", () => cleanup());
 try {
+  for (const port of [8545, 3000, 42069]) await new Promise((resolve, reject) => {
+    const server = createServer();
+    server.once("error", () => reject(new Error(`Port ${port} is in use. Stop the previous demo before restarting.`)));
+    server.listen(port, "127.0.0.1", () => server.close(resolve));
+  });
   run(["scripts/foundry.mjs", "anvil", "--host", "127.0.0.1", "--hardfork", "paris", "--disable-code-size-limit", "--gas-limit", "100000000", "--block-time", "2", "--silent"]);
   for (let i = 0; i < 30; i++) { try { if (await publicClient.getChainId() !== 31337) throw new Error("Wrong chain"); break; } catch { if (i === 29) throw new Error("Anvil did not start; stop any existing chain first."); await sleep(1000); } }
   await command(["scripts/foundry.mjs", "forge", "build", "--root", "contracts"]);
@@ -46,7 +59,7 @@ try {
   const pnpm = process.env.npm_execpath; if (!pnpm) throw new Error("Run this command through pnpm demo");
   // Avoid dev hot-reload closing PGlite while indexing. Isolate each demo's application tables.
   run([pnpm, "--filter", "@surety/indexer", "start", "--schema", `surety_${Date.now()}`, "--hostname", "127.0.0.1"], { MOCK_MODE: "true", PONDER_TELEMETRY_DISABLED: "true" });
-  run([pnpm, "--filter", "@surety/web", "dev"], { MOCK_MODE: "true" });
+  run([pnpm, "--filter", "@surety/web", process.argv.includes("--production") ? "start" : "dev"], { MOCK_MODE: "true" });
   let busy = false;
   setInterval(async () => {
     if (busy) return; busy = true;
