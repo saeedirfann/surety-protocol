@@ -48,7 +48,8 @@ try {
   await action({ action: "withdraw", agentId: 1, amount: 1 }, false);
   const paidState = await until(data => data.claims.items.some(c => !beforePaid.has(c.id)));
   const paid = paidState.claims.items.find(c => !beforePaid.has(c.id));
-  await until(data => data.claims.items.some(c => c.id === paid.id && c.status === "Paid"));
+  const initialPaid = BigInt(d.agents.items.find(a => a.id === "1").totalPaid);
+  await until(data => data.claims.items.some(c => c.id === paid.id && c.status === "Paid") && BigInt(data.agents.items.find(a => a.id === "1").totalPaid) > initialPaid);
   const bondBefore = (await state()).agents.items.find(a => a.id === "1").bond;
   const rejected = await newClaim(100, "Frivolous claim: no verifiable policy breach.");
   await action({ action: "dispute", claimId: rejected.id });
