@@ -52,6 +52,8 @@ Environment examples are included at the root and in every workspace. The launch
 
 Separate component commands: `pnpm chain`, `pnpm dev:indexer`, and `pnpm dev`. Use `pnpm demo` first for the seeded deployment. Do not run a second Anvil process on the same port. Restarting the chain invalidates previous claim IDs and receipts.
 
+For a lower-memory, optimized frontend: run `pnpm build`, then `pnpm demo --production`. Run heavyweight builds separately from the browser demo on memory-constrained machines.
+
 ## Demo
 
 1. Explore Atlas, Sentinel and Scout, seeded with $5,000, $2,500 and $1,200 in demo USD.
