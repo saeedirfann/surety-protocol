@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isAddress, parseUnits, type Hex } from "viem";
+import { isAddress, parseUnits, parseEventLogs, type Hex } from "viem";
 import { abis, deployment, publicClient, write } from "@/lib/server";
 export const dynamic = "force-dynamic";
 let locked = false;
@@ -9,11 +9,13 @@ export async function POST(request: Request) {
   if (locked) return NextResponse.json({ error: "A transaction is in progress. Retry shortly." }, { status: 409 });
   locked = true;
   try {
-    const input = await request.json(); const d = deployment(); const p = publicClient(); let tx: string | undefined;
+    const input = await request.json(); const d = deployment(); const p = publicClient(); let tx: string | undefined; let assertionId: string | undefined;
     const id = BigInt(input.agentId ?? 1);
     if (input.action === "claim") {
       const amount = parseUnits(String(input.amount), 6);
       tx = await write(abis.ClaimsManagerAbi, d.manager, "fileClaim", [id, String(input.evidence ?? ""), amount], d.users[1]);
+      const receipt = await p.getTransactionReceipt({ hash: tx as Hex });
+      assertionId = parseEventLogs({ abi: abis.ClaimsManagerAbi, eventName: "ClaimFiled", logs: receipt.logs })[0]?.args.assertionId;
     } else if (input.action === "dispute" || input.action === "resolve") {
       if (!/^0x[0-9a-f]{64}$/i.test(input.claimId)) throw new Error("Invalid assertion ID");
       const claimId = input.claimId as Hex;
@@ -46,7 +48,7 @@ export async function POST(request: Request) {
       const outcome = !allowed ? "Blocked: counterparty is outside the allowlist" : amount > policy.maxTxValue ? "Blocked: transaction exceeds the spend cap" : amount > policy.requiresApprovalAbove ? "Human approval required" : "Policy passed — simulated risk screen passed";
       return NextResponse.json({ outcome, mocked: true });
     } else throw new Error("Unknown action");
-    return NextResponse.json({ tx });
+    return NextResponse.json({ tx, assertionId });
   } catch (error) { return NextResponse.json({ error: (error as { shortMessage?: string }).shortMessage ?? (error instanceof Error ? error.message : "Transaction failed") }, { status: 400 }); }
   finally { locked = false; }
 }
