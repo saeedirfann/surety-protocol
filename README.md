@@ -10,6 +10,8 @@ Surety is an on-chain accountability prototype for autonomous agents. Operators 
 
 [Setup](#getting-started) · [Demo](#demo) · [Integrations](#partner-integrations) · [Deployments](docs/DEPLOYMENTS.md) · [Tests](#testing)
 
+**Public frontend hosting:** follow the exact [Vercel deployment guide](docs/VERCEL.md). The public deployment is a labeled, read-only recorded preview; actual transactions run in the local demo.
+
 ## Features
 
 - Bonded registration with metadata, spend limits, counterparty and selector allowlists.
