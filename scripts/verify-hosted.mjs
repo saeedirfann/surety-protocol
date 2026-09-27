@@ -32,11 +32,26 @@ try {
   const response = await context.request.get(base + "/api/protocol");
   assert.equal(response.status(), 200);
   const data = await response.json();
+  assert.equal(response.headers()["x-content-type-options"], "nosniff");
+  assert.equal(response.headers()["x-frame-options"], "DENY");
   assert.equal(data.mode, "snapshot", "This regression test runs without any chain/indexer configuration");
   assert.ok(data.agents.items.length >= 3);
   assert.equal((await context.request.get(base + "/api/brand")).status(), 200);
   const denied = await context.request.post(base + "/api/demo", { data: { action: "register", name: "Unsafe", amount: 100 } });
   assert.equal(denied.status(), 403, "Hosted mode must never enable server-side Anvil signing");
+  const setupWrite = await context.request.post(base + "/setup", { data: { WORLD_API_KEY: "browser-test-secret" } });
+  // Next.js can render a page for POST even without a mutation handler. Assert the security boundary, not its default method status.
+  assert.equal((await setupWrite.text()).includes("browser-test-secret"), false, "Setup must not reflect browser-supplied secrets");
+  const setupHtml = await (await context.request.get(base + "/setup")).text();
+  assert.equal(setupHtml.includes("browser-test-secret"), false, "Setup must not persist browser-supplied secrets");
+  assert.equal(setupHtml.includes("hosted-secret-canary"), false, "Server credentials must not appear in rendered HTML");
+  await page.goto(base + "/setup");
+  await expect(page.getByRole("heading", { level: 1, name: "Secure setup." })).toBeVisible();
+  await expect(page.getByText("This host is not configured for public operation.", { exact: false })).toBeVisible();
+  assert.equal(await page.locator("input, textarea, form").count(), 0, "Never collect secrets in the public browser");
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, "Setup must not overflow mobile viewport");
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(base);
   await expect(page.getByText("Read-only recorded preview.", { exact: true })).toBeVisible({ timeout: 30000 });
   const connect = page.getByRole("button", { name: "Connect Wallet" });
@@ -60,5 +75,5 @@ try {
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   assert.deepEqual(errors, []);
-  console.log("PASS: hosted data without env/RPC, logo, wallet connector, local-write refusal, deep links, recorded receipts, mobile and browser errors.");
+  console.log("PASS: hosted data, safe setup without secret inputs, security headers, wallet connector, local-write refusal, deep links, receipts, mobile and browser errors.");
 } finally { await browser.close(); }
