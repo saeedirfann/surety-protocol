@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
-import { deployment, indexed, publicClient } from "@/lib/server";
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import { deployment, hosted, indexed, previewData, publicClient, publicDeployment } from "@/lib/server";
 export const dynamic = "force-dynamic";
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    if (process.env.DEMO_SNAPSHOT_MODE === "true") {
-      const root = path.resolve(process.cwd(), process.cwd().endsWith("web") ? ".." : ".");
-      const snapshot = JSON.parse(readFileSync(path.join(root, "shared/demo-snapshot.json"), "utf8"));
-      return NextResponse.json({ ...snapshot, mode: "snapshot", integrations: { ...snapshot.integrations, automation: "Recorded local keeper run — not live" } });
-    }
+    const external = hosted(request); const configured = publicDeployment();
+    if (process.env.DEMO_SNAPSHOT_MODE === "true" || (external && !configured)) return NextResponse.json(previewData(), { headers: { "Cache-Control": "no-store" } });
+    if (external && (!process.env.INDEXER_URL || !process.env.INDEXER_URL.startsWith("https://"))) throw new Error("Live deployment requires an HTTPS INDEXER_URL");
     const config = deployment(); const data = await indexed();
+    if (external) {
+      const chain = await publicClient().getChainId();
+      if (chain !== config.chainId) throw new Error("RPC chain does not match the deployment");
+      return NextResponse.json({ ...data, deployment: { ...config, rpc: undefined, users: [] }, block: String(await publicClient().getBlockNumber()), mode: "public", integrations: { uma: "Configured on-chain oracle — confirm deployment verification", identity: "Configured on-chain identity gate — genuine proof required", ens: "Not connected", multibaas: "Not connected", intercepta: "Not connected", oneinch: "Not connected", automation: "Hosting must be configured separately" } });
+    }
     return NextResponse.json({ ...data, deployment: config, block: String(await publicClient().getBlockNumber()), mode: "local", integrations: { uma: "Real OOv3 + upstream DVM mock", identity: "Local mock", ens: "Blocked — namespace unavailable", multibaas: "Mock — credentials unavailable", intercepta: "Mock — endpoint/key unavailable", oneinch: "Mock — API key unavailable", automation: "Local keeper running" } });
   } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Run pnpm demo to start the local chain and indexer." }, { status: 503 }); }
 }
