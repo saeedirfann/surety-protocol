@@ -6,6 +6,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "test:hosted": "node scripts/verify-hosted.mjs",
     "test:e2e": "node scripts/verify-demo.mjs",
     "demo": "node scripts/demo.mjs",
     "abi": "node scripts/export-abis.mjs",

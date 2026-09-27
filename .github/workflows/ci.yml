@@ -21,6 +21,16 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm --filter @surety/web lint
       - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Start Vercel-mode frontend without local services
+        run: VERCEL=1 MOCK_MODE=false pnpm --filter @surety/web start --port 3005 > /tmp/surety-hosted.log 2>&1 &
+      - name: Verify hosted mode and browser-wallet connection
+        run: pnpm test:hosted
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: hosted-frontend-log
+          path: /tmp/surety-hosted.log
   demo:
     runs-on: ubuntu-latest
     timeout-minutes: 15
