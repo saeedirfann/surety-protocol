@@ -6,6 +6,8 @@
     "node": ">=22"
   },
   "scripts": {
+    "test:deployment": "node --test scripts/public-deployment.test.mjs",
+    "verify:public": "node scripts/verify-public.mjs",
     "test:hosted": "node scripts/verify-hosted.mjs",
     "test:e2e": "node scripts/verify-demo.mjs",
     "demo": "node scripts/demo.mjs",

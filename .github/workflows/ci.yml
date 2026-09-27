@@ -17,6 +17,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @surety/contracts install:std
       - run: pnpm test:contracts
+      - run: pnpm test:deployment
       - run: pnpm abi
       - run: pnpm typecheck
       - run: pnpm --filter @surety/web lint

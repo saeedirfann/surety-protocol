@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAddress, parseUnits, parseEventLogs, type Hex } from "viem";
-import { abis, deployment, publicClient, write } from "@/lib/server";
+import { abis, localDemoDeployment, publicClient, write } from "@/lib/server";
 export const dynamic = "force-dynamic";
 let locked = false;
 export async function POST(request: Request) {
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   if (locked) return NextResponse.json({ error: "A transaction is in progress. Retry shortly." }, { status: 409 });
   locked = true;
   try {
-    const input = await request.json(); const d = deployment(); const p = publicClient(); let tx: string | undefined; let assertionId: string | undefined;
+    const input = await request.json(); const d = localDemoDeployment(); const p = publicClient(); let tx: string | undefined; let assertionId: string | undefined;
     const id = BigInt(input.agentId ?? 1);
     if (input.action === "claim") {
       const amount = parseUnits(String(input.amount), 6);
