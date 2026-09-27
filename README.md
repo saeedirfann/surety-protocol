@@ -12,6 +12,8 @@ Surety is an on-chain accountability prototype for autonomous agents. Operators 
 
 **Public frontend hosting:** follow the exact [Vercel deployment guide](docs/VERCEL.md). The public deployment is a labeled, read-only recorded preview; actual transactions run in the local demo.
 
+Unconfigured public hosts automatically load the bundled recorded data, with browser-wallet connection available. Real public transactions are supported only when actual Sepolia contracts, a hosted RPC/indexer and identity verification are configured. Visitors sign through their own wallets; server-side local accounts and mock oracle verdicts are never used online.
+
 ## Features
 
 - Bonded registration with metadata, spend limits, counterparty and selector allowlists.
@@ -140,6 +142,7 @@ pnpm typecheck
 pnpm --filter @surety/web lint
 pnpm build
 pnpm test:e2e   # separate terminal while pnpm demo runs
+pnpm test:hosted # VERCEL=1 frontend on port 3005, without Anvil or Ponder
 ```
 
 Foundry covers happy/failure paths, permissions, identity, coverage reservations, timelocks, callbacks, payouts and disputed rejection, with 256-run fuzz tests for money flows. Browser verification covers registration, search, policy pass/block, over-coverage rejection, withdrawal locks, automatic payout, rejected claims, navigation and mobile overflow; it refreshes project screenshots.
