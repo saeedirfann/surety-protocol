@@ -11,16 +11,26 @@ This deploys a **read-only snapshot of a verified local demonstration**, not a l
 5. Set **Install Command: pnpm install --frozen-lockfile**.
 6. Set **Build Command: pnpm build**. This runs web/package.json's Next.js production build from the selected web directory, not the root protocol launcher.
 7. Leave **Output Directory: .next** and set **Node.js: 22.x**.
-8. Add environment variable `DEMO_SNAPSHOT_MODE=true` for Production and Preview. Set `MOCK_MODE=false`. Do not upload local secrets or Anvil private keys.
+8. Set `MOCK_MODE=false`. Public hosts automatically load the bundled recorded preview when live contracts are not configured, without needing any environment variable. Optional `DEMO_SNAPSHOT_MODE=true` explicitly keeps recorded mode. Do not upload Anvil private keys.
 9. Click **Deploy**. Open the generated HTTPS URL and check registry, agents, paid/rejected claims, and integration disclosures.
 
-The Next.js configuration traces shared snapshot data and the original logo into the deployment. No wallet or API key is needed for the preview. The UI labels recorded data and will not submit local demonstration transactions from a public hostname.
+The recorded data is imported into the server bundle, so it does not depend on runtime working-directory paths. No wallet or API key is needed to browse. Browser-extension wallets can connect to Sepolia; connection alone does not turn recorded data into a live deployment.
 
 ## Full live protocol
 
 Vercel hosts the Next.js frontend/API functions. It is not the host for the persistent Anvil process, Ponder indexer, or local keeper. Do not put pnpm demo in a Vercel build or start command.
 
-A live public protocol still requires public-chain contract deployment, a hosted RPC, a persistent hosted Ponder database/indexer, keeper hosting, and production user-wallet authorization. The present write API intentionally refuses public-hostname actions and unlocked local signing must not be exposed. Setting INDEXER_URL alone is insufficient: the server RPC and deployment must also be adapted and secured.
+A live public protocol requires actual Sepolia contract deployment, an HTTPS RPC, a persistent hosted Ponder indexer, and genuine identity verification. Supply:
+
+- `PROTOCOL_DEPLOYMENT_JSON`: JSON with `chainId:11155111`, actual `registry`, `manager`, `token`, `oracle`, `identity` contract addresses and an HTTPS `rpc`. Optional deployment metadata can be included. The collateral token must use six decimals.
+- `PROTOCOL_RPC_URL`: optional private server RPC override.
+- `INDEXER_URL`: the HTTPS base URL of your Ponder server.
+- `NEXT_PUBLIC_RPC_URL`: optional Sepolia browser RPC.
+- Remove `DEMO_SNAPSHOT_MODE=true` to enable configured live mode.
+
+The frontend then signs real transactions through the connected visitor wallet, with exact token approvals, on-chain identity checks and network validation. The server write API remains localhost-only. Operator actions require the registered operator wallet. Disputes resolve through UMA; mock verdict buttons never operate online. Sepolia ETH for gas and collateral tokens are required.
+
+Vercel does not deploy Solidity contracts, verify World ID identities or host persistent Ponder/keeper services automatically. These prerequisites cannot be supplied by changing frontend settings alone.
 
 No Vercel account connection or actual Vercel deployment has been performed by this repository. The generated Vercel URL must be obtained from your account after importing the project.
 
