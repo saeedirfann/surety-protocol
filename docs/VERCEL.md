@@ -22,16 +22,16 @@ Vercel hosts the Next.js frontend/API functions. It is not the host for the pers
 
 A live public protocol requires actual Sepolia contract deployment, an HTTPS RPC, a persistent hosted Ponder indexer, and genuine identity verification. Supply:
 
-- `PROTOCOL_DEPLOYMENT_JSON`: JSON with `chainId:11155111`, actual `registry`, `manager`, `token`, `oracle`, `identity` contract addresses and an HTTPS `rpc`. Optional deployment metadata can be included. The collateral token must use six decimals.
+- `PROTOCOL_DEPLOYMENT_JSON`: JSON with `chainId:11155111`, the positive `startBlock` of deployment, actual `registry`, `manager`, `token`, `oracle`, `identity` contract addresses and an HTTPS `rpc`. The collateral token must use six decimals. Both web and indexer use the same manifest.
 - `PROTOCOL_RPC_URL`: optional private server RPC override.
 - `INDEXER_URL`: the HTTPS base URL of your Ponder server.
 - `NEXT_PUBLIC_RPC_URL`: optional Sepolia browser RPC.
 - Remove `DEMO_SNAPSHOT_MODE=true` to enable configured live mode.
 
-The frontend then signs real transactions through the connected visitor wallet, with exact token approvals, on-chain identity checks and network validation. The server write API remains localhost-only. Operator actions require the registered operator wallet. Disputes resolve through UMA; mock verdict buttons never operate online. Sepolia ETH for gas and collateral tokens are required.
+The frontend then signs transactions through the connected visitor wallet, with exact token approvals, on-chain identity checks and network validation. The server write API remains localhost-only. Operator actions require the registered operator wallet. Mock verdict buttons never operate online. Sepolia ETH for gas and collateral tokens are required. **UMA currently lists no DVM support for Sepolia: complete real dispute arbitration must not be claimed for that network.** Resolve the network decision and complete the [public launch gate](PUBLIC_LAUNCH.md) before release.
 
 Vercel does not deploy Solidity contracts, verify World ID identities or host persistent Ponder/keeper services automatically. These prerequisites cannot be supplied by changing frontend settings alone.
 
-No Vercel account connection or actual Vercel deployment has been performed by this repository. The generated Vercel URL must be obtained from your account after importing the project.
+The current public frontend is [surety-protocol-web.vercel.app](https://surety-protocol-web.vercel.app/). Its availability does not establish that the public protocol services are deployed.
 
 Official references: [Vercel monorepos](https://vercel.com/docs/monorepos), [Vercel Functions](https://vercel.com/docs/functions), [Next.js output tracing](https://nextjs.org/docs/app/api-reference/config/next-config-js/output).

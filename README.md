@@ -12,6 +12,8 @@ Surety is an on-chain accountability prototype for autonomous agents. Operators 
 
 **Public frontend hosting:** follow the exact [Vercel deployment guide](docs/VERCEL.md). The public deployment is a labeled, read-only recorded preview; actual transactions run in the local demo.
 
+For genuine public operation, follow the [public launch gate](docs/PUBLIC_LAUNCH.md). It covers persistent Postgres/Ponder hosting, contract-wiring validation, identity onboarding, automation, and the network decision required for UMA dispute support. `pnpm verify:public` provides read-only infrastructure checks; it is not a substitute for real multi-wallet lifecycle tests.
+
 Unconfigured public hosts automatically load the bundled recorded data, with browser-wallet connection available. Real public transactions are supported only when actual Sepolia contracts, a hosted RPC/indexer and identity verification are configured. Visitors sign through their own wallets; server-side local accounts and mock oracle verdicts are never used online.
 
 ## Features
