@@ -46,7 +46,7 @@ try {
     const wallet = page.getByRole("button", { name: /MetaMask|Injected|Browser Wallet/i }).first();
     await expect(wallet).toBeVisible();
     await wallet.click();
-    await expect(page.getByRole("button", { name: /0x1111/i }).first()).toBeVisible({ timeout: 20000 });
+    await expect(page.getByRole("button", { name: /0x11.*1111/i }).first()).toBeVisible({ timeout: 20000 });
   }
   await page.goto(base + "/agents/1");
   await expect(page.getByRole("heading", { name: "Operating policy" })).toBeVisible({ timeout: 30000 });
