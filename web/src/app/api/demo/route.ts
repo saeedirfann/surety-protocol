@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 let locked = false;
 export async function POST(request: Request) {
   const url = new URL(request.url); const origin = request.headers.get("origin");
-  if (process.env.MOCK_MODE !== "true" || !["localhost", "127.0.0.1"].includes(url.hostname) || (origin && origin !== url.origin)) return NextResponse.json({ error: "Local demo actions are disabled" }, { status: 403 });
+  if (process.env.VERCEL === "1" || process.env.MOCK_MODE !== "true" || !["localhost", "127.0.0.1"].includes(url.hostname) || (origin && origin !== url.origin)) return NextResponse.json({ error: "Local demo actions are disabled" }, { status: 403 });
   if (locked) return NextResponse.json({ error: "A transaction is in progress. Retry shortly." }, { status: 409 });
   locked = true;
   try {
