@@ -14,6 +14,10 @@ Surety is an on-chain accountability prototype for autonomous agents. Operators 
 
 For genuine public operation, follow the [public launch gate](docs/PUBLIC_LAUNCH.md). It covers persistent Postgres/Ponder hosting, contract-wiring validation, identity onboarding, automation, and the network decision required for UMA dispute support. `pnpm verify:public` provides read-only infrastructure checks; it is not a substitute for real multi-wallet lifecycle tests.
 
+## Secure bring-your-own-key setup
+
+Open `/setup` in the application for configuration status and testing instructions. Visitors use their own wallets—never paste private keys or seed phrases into Surety. Owners deploy their own workspace and supply their own RPC/database/service credentials through server-side environment variables. The setup page does not collect or store secrets, and adding keys does not activate unfinished partner integrations. Read the [security guide](docs/SECURITY.md) before configuring public services.
+
 Unconfigured public hosts automatically load the bundled recorded data, with browser-wallet connection available. Real public transactions are supported only when actual Sepolia contracts, a hosted RPC/indexer and identity verification are configured. Visitors sign through their own wallets; server-side local accounts and mock oracle verdicts are never used online.
 
 ## Features

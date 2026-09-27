@@ -32,6 +32,10 @@ The frontend then signs transactions through the connected visitor wallet, with 
 
 Vercel does not deploy Solidity contracts, verify World ID identities or host persistent Ponder/keeper services automatically. These prerequisites cannot be supplied by changing frontend settings alone.
 
+## Your own credentials
+
+Configure private values under **Project → Settings → Environment Variables**, scoped only to the environments that need them, then redeploy. Do not use `NEXT_PUBLIC_` for private RPC or sponsor keys. The deployed `/setup` page explains the separation between visitor wallets and workspace-owner credentials, and shows sanitized configuration status. There is no browser secret-entry form. See [SECURITY.md](SECURITY.md) for key handling, platform hardening and rotation.
+
 The current public frontend is [surety-protocol-web.vercel.app](https://surety-protocol-web.vercel.app/). Its availability does not establish that the public protocol services are deployed.
 
 Official references: [Vercel monorepos](https://vercel.com/docs/monorepos), [Vercel Functions](https://vercel.com/docs/functions), [Next.js output tracing](https://nextjs.org/docs/app/api-reference/config/next-config-js/output).

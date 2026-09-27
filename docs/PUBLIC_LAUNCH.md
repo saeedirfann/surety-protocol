@@ -2,6 +2,8 @@
 
 The hosted frontend is currently a recorded preview. A website deployment does not deploy Ethereum contracts or run the indexer. Do not remove preview labels until the release checks below have passed.
 
+The application's `/setup` page provides bring-your-own-credentials instructions and boolean configuration status. Enter secrets only in the appropriate hosting dashboard or local ignored environment files, never in the public website. See [SECURITY.md](SECURITY.md).
+
 ## Architecture
 
 Vercel serves the interface and read-only API. Users sign writes with their own wallets; no unlocked accounts or operator private keys belong in Vercel. A separately hosted Ponder process follows the public chain and persists its data in Postgres. UMA resolves assertions; World verifies personhood. Automation must be registered and funded separately.
